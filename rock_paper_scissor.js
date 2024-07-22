@@ -81,3 +81,21 @@ function playGame(playerMove) {
   
   localStorage.setItem('score', JSON.stringify(score));
 }
+
+let isAutoPlay = false;
+let intervalId;
+
+function autoPlay() {
+  if (!isAutoPlay) {
+    intervalId = setInterval(function() {
+      const playerMove = pickComputerMove();
+      playGame(playerMove);
+      document.querySelector('.auto-play-button').innerText = 'Stop Play';
+    }, 1000);
+    isAutoPlay = true;
+  } else {
+    clearInterval(intervalId);
+    isAutoPlay = false;
+    document.querySelector('.auto-play-button').innerText = 'Auto Play';
+  }
+}
