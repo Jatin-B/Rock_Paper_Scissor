@@ -87,7 +87,7 @@ let intervalId;
 
 function autoPlay() {
   if (!isAutoPlay) {
-    intervalId = setInterval(function() {
+    intervalId = setInterval(() => {
       const playerMove = pickComputerMove();
       playGame(playerMove);
       document.querySelector('.auto-play-button').innerText = 'Stop Play';
@@ -99,3 +99,58 @@ function autoPlay() {
     document.querySelector('.auto-play-button').innerText = 'Auto Play';
   }
 }
+
+function resetScore() {
+  score.win = 0;
+  score.lose = 0;
+  score.tie = 0;
+  updateScoreElement();
+  localStorage.removeItem('score');
+}
+
+function showResetConfirmation() {
+  document.querySelector('.js-reset-confirmation')
+    .innerHTML = `Are you sure you want to reset the score?
+                  <button class = "js-reset-yes-button reset-confirm-button">
+                  Yes
+                  </button>
+                  <button class = "js-reset-no-button reset-confirm-button">
+                  No
+                  </button>`;
+
+  document.querySelector('.js-reset-yes-button').addEventListener('click', () => {
+    resetScore();
+    hideResetConfirmation();
+  });
+
+  document.querySelector('.js-reset-no-button').addEventListener('click', () => {
+    hideResetConfirmation();
+  })
+}
+
+function hideResetConfirmation() {
+  document.querySelector('.js-reset-confirmation')
+    .innerHTML = '';
+}
+
+// EventListners
+document.querySelector('.js-rock-button').addEventListener('click', () => {
+  playGame('Rock')
+})
+
+
+document.querySelector('.js-paper-button').addEventListener('click', () => {
+  playGame('Paper')
+})
+
+document.querySelector('.js-scissor-button').addEventListener('click', () => {
+  playGame('Scissor')
+})
+
+document.querySelector('.js-reset-button').addEventListener('click', () => {
+  showResetConfirmation();
+})
+
+document.querySelector('.js-auto-play-button').addEventListener('click', () => {
+  autoPlay();
+})
